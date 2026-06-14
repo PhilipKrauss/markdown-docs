@@ -1,5 +1,8 @@
 node_modules
 
+# Velite
+.velite
+
 # Output
 .output
 .vercel
