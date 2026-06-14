@@ -1,17 +1,20 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import * as ScrollArea from '$lib/components/ui/scroll-area';
-	import {groupedDocs} from '$lib/features/docs/docs';
+	import { getGroupedDocs, versionedHref } from '$lib/features/docs/docs';
 	import { page } from '$app/state';
 	import type { ComponentProps } from 'svelte';
 	import { UserConfigContext } from '$lib/user-config.svelte';
-	import {cn} from "$lib/utils.ts";
+	import { cn } from '$lib/utils';
+	import VersionPicker from './version-picker.svelte';
 
 	let { ref = $bindable(null), ...restProps }: ComponentProps<typeof Sidebar.Root> = $props();
 
 	const pathname = $derived(page.url.pathname);
+	const version = $derived(page.params.version ?? '');
 	const userConfig = UserConfigContext.get();
 	const isWide = $derived(userConfig.current.layout === 'full');
+	const groupedDocs = $derived(getGroupedDocs(version));
 </script>
 
 {#snippet Indicator(key: string)}
@@ -29,12 +32,12 @@
 {#snippet MenuButton(doc: any)}
 	<Sidebar.MenuItem class="w-full">
 		<Sidebar.MenuButton
-				isActive={doc.href === pathname}
-				class="data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-7.5 w-fit overflow-clip border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md"
+				isActive={versionedHref(doc.href, version) === pathname}
+				class="data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-7.5 w-fit overflow-clip border border-transparent font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md"
 				tooltipContent={doc.title}
 		>
 			{#snippet child({ props })}
-				<a href={doc.href} {...props}>
+				<a href={versionedHref(doc.href, version)} {...props}>
 					<span class="absolute inset-0 flex w-(--sidebar-width) bg-transparent"></span>
 					<span class="max-w-36 truncate">{doc.navLabel ?? doc.title}</span>
 					{@render Indicator(doc.indicator)}
@@ -51,6 +54,7 @@
 	{...restProps}
 >
 	<Sidebar.Content class="overflow-hidden px-0">
+		<VersionPicker {version} />
 		<ScrollArea.Root class={cn('h-full', isWide ? 'pl-4 pr-2' : 'px-2')}>
 			{#each Object.entries(groupedDocs) as [groupTitle, routes] (groupTitle)}
 				<Sidebar.Group>

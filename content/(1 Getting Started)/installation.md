@@ -1,4 +1,5 @@
 ---
+since: '1.0.0'
 title: 'Installation'
 description: 'Clone the repository, install dependencies, and start the dev server.'
 order: 2
@@ -65,6 +66,7 @@ Create a markdown file anywhere under `content/`:
 ---
 title: 'My First Page'
 description: 'A short description shown in the sidebar and overview.'
+until: '1.0.0'
 order: 1
 ---
 

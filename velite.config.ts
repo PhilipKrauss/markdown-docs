@@ -20,6 +20,8 @@ const docSchema = s
 		hidden: s.boolean().default(false),
 		tocLevel: s.number().optional(),
 		indicator: s.union([s.literal('new'), s.literal('updated')]).optional(),
+		since: s.string().optional(),
+		until: s.string().optional(),
 	})
 	.transform((data) => {
 		const segments = data.path.split('/');
@@ -55,10 +57,24 @@ const docs = defineCollection({
 	schema: docSchema,
 });
 
+const versionSchema = s.object({
+	version: s.string(),
+	label: s.string().optional(),
+	stable: s.boolean().default(true),
+	outdated: s.boolean().default(false),
+});
+
+const versions = defineCollection({
+	name: 'versions',
+	pattern: 'versions.yaml',
+	schema: versionSchema,
+});
+
 export default defineConfig({
 	root: './content',
 	collections: {
 		docs,
+		versions,
 	},
 	output: { assets: 'static' },
 });

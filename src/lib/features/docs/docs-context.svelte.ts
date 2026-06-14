@@ -12,6 +12,10 @@ class DocsContext {
 	get doc() {
 		return page.data.doc as CurrentDoc;
 	}
+
+	get version(): string {
+		return page.params.version ?? '';
+	}
 }
 
 export const DocsCtx = new Context<DocsContext>('docs-context');

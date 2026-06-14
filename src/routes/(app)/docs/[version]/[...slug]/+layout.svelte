@@ -13,7 +13,7 @@
 	class="3xl:fixed:container 3xl:fixed:px-3 min-h-min flex-1 items-start px-0 [--sidebar-width:220px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--sidebar-width:240px] lg:[--top-spacing:calc(var(--spacing)*4)]"
 >
 	<DocsSidebar />
-	<div class="h-full w-full">
+	<div class="h-full w-full pl-2">
 		<PageWrapper>
 			{@render children()}
 		</PageWrapper>

@@ -1,10 +1,13 @@
 <script lang="ts">
 	import * as Sheet from '$lib/components/ui/sheet';
-	import MenuIcon from '@lucide/svelte/icons/menu';
-	import XIcon from '@lucide/svelte/icons/x';
-	import { groupedDocs } from '$lib/features/docs/docs';
+	import {getGroupedDocs, versionedHref} from '$lib/features/docs/docs';
+	import {page} from "$app/state";
+	import {IconMenu2, IconX} from "@tabler/icons-svelte";
 
 	let open = $state(false);
+
+	const version = $derived(page.params.version ?? '');
+	const groupedDocs = $derived(getGroupedDocs(version));
 
 	const menuRoutes = [
 		{ href: '/', title: 'Home' },
@@ -15,9 +18,9 @@
 <Sheet.Root bind:open>
 	<Sheet.Trigger class="flex items-center gap-2 md:hidden">
 		{#if open}
-			<XIcon class="size-5" />
+			<IconX class="size-5" />
 		{:else}
-			<MenuIcon class="size-5" />
+			<IconMenu2 class="size-5" />
 		{/if}
 		Menu
 	</Sheet.Trigger>
@@ -45,7 +48,7 @@
 					<ul class="flex flex-col gap-2">
 						{#each routes as route (route.href)}
 							<li class="flex flex-col gap-2">
-								<a href={route.href} class="text-xl" onclick={() => (open = false)}>
+								<a href={versionedHref(route.href, version)} class="text-xl" onclick={() => (open = false)}>
 									{route.title}
 								</a>
 							</li>

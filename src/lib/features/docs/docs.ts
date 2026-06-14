@@ -2,8 +2,9 @@ import type { Component } from 'svelte';
 import { docs } from '$content/index.js';
 import type { CurrentDoc } from './types';
 import { join } from '$lib/utils/url';
+import semver from 'semver';
 
-export const allDocs = [...docs]
+const sortedDocs = [...docs]
 	.filter((doc) => !doc.hidden)
 	.sort((a, b) => {
 		const goA = a.groupOrder ?? Infinity;
@@ -15,29 +16,72 @@ export const allDocs = [...docs]
 		return a.slug.localeCompare(b.slug);
 	});
 
-export const groupedDocs: Record<string, typeof allDocs> = {};
-for (const doc of allDocs) {
-	const group = doc.group ?? 'Other';
-	if (!groupedDocs[group]) groupedDocs[group] = [];
-	groupedDocs[group].push(doc);
+export function getDocsForVersion(version: string) {
+	return sortedDocs.filter((doc) => {
+		const since = doc.since ?? '0.0.0';
+		const until = doc.until;
+		const coercedVersion = semver.coerce(version);
+		const coercedSince = semver.coerce(since);
+		if (!coercedVersion || !coercedSince) return true;
+		if (semver.lt(coercedVersion, coercedSince)) return false;
+		if (until) {
+			const coercedUntil = semver.coerce(until);
+			if (coercedUntil && semver.gte(coercedVersion, coercedUntil)) return false;
+		}
+		return true;
+	});
 }
 
-export async function getDoc(path: string): Promise<CurrentDoc | null> {
-	const index = allDocs.findIndex((doc) => {
-		return doc.slug === path || doc.slug === join(path, 'index');
+export function getGroupedDocs(version: string): Record<string, typeof sortedDocs> {
+	const grouped: Record<string, typeof sortedDocs> = {};
+	for (const doc of getDocsForVersion(version)) {
+		const group = doc.group ?? 'Other';
+		if (!grouped[group]) grouped[group] = [];
+		grouped[group].push(doc);
+	}
+	return grouped;
+}
+
+export function getDocsNotInVersion(
+	version: string,
+	allVersions: { version: string }[]
+): Array<{ doc: (typeof sortedDocs)[number]; version: string }> {
+	const currentSlugs = new Set(getDocsForVersion(version).map((d) => d.slug));
+	const seen = new Set<string>();
+	const result: Array<{ doc: (typeof sortedDocs)[number]; version: string }> = [];
+	for (const v of [...allVersions].reverse()) {
+		if (v.version === version) continue;
+		for (const doc of getDocsForVersion(v.version)) {
+			if (!currentSlugs.has(doc.slug) && !seen.has(doc.slug)) {
+				seen.add(doc.slug);
+				result.push({ doc, version: v.version });
+			}
+		}
+	}
+	return result;
+}
+
+export function versionedHref(href: string, version: string): string {
+	return href.replace(/^\/docs/, `/docs/${version}`);
+}
+
+export async function getDoc(slug: string, version: string): Promise<CurrentDoc | null> {
+	const versionedDocs = getDocsForVersion(version);
+	const index = versionedDocs.findIndex((doc) => {
+		return doc.slug === slug || doc.slug === join(slug, 'index');
 	});
 
 	if (index === -1) return null;
 
-	const doc = allDocs[index];
+	const doc = versionedDocs[index];
 	const docComponent = await getComponent(doc.slug);
 
 	if (!docComponent) return null;
 
 	return {
-		doc: allDocs[index],
-		next: allDocs[index + 1] || null,
-		prev: allDocs[index - 1] || null,
+		doc: versionedDocs[index],
+		next: versionedDocs[index + 1] || null,
+		prev: versionedDocs[index - 1] || null,
 		component: docComponent
 	};
 }

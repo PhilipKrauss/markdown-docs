@@ -365,12 +365,62 @@ import { Window } from '$lib/components/ui/window';
 ```
 Use to frame a preview/demo inside a window-chrome container.
 
-## 5. Workflow Checklist
+## 5. Versioning
+
+The site supports multiple documentation versions. Versions are defined in `content/versions.yaml` and sorted automatically using Semantic Versioning. **No code changes are needed to add a new version.**
+
+### Version Registry — `content/versions.yaml`
+
+```yaml
+- version: '1.0.0'   # full semver string, used in URLs: /docs/1.0.0/...
+  label: '1.0.0'     # optional display name (defaults to version)
+  stable: true        # false = shown as pre-release in the version picker
+
+- version: '2.0.0-RC1'
+  label: '2.0.0-RC1'
+  stable: false
+```
+
+- **Latest stable** = highest `stable: true` entry by semver. Determined automatically — no extra config.
+- **`/docs/latest/...`** redirects to the current latest stable version automatically.
+- **Unknown version in URL** → auto-redirected to `/docs/latest/`.
+- Version format: always use three numeric parts (`1.0.0`, not `1.0`). Pre-release identifiers: `1.0.0-SNAPSHOT`, `2.1.0-RC1`, `3.0.0-alpha.1`.
+
+### Per-Page Version Frontmatter
+
+Control which versions a page appears in using `since` and `until`:
+
+```yaml
+---
+title: 'My Page'
+since: '1.0.0'   # available from this version onwards (default: '0.0.0' = always)
+until: '2.0.0'   # exclusive upper bound: hidden from 2.0.0 onwards (omit = no upper limit)
+---
+```
+
+Visibility rule: `since <= requestedVersion < until`. `until` is exclusive.
+
+| Scenario | Frontmatter |
+|----------|-------------|
+| Available in all versions | `since: '1.0.0'` (no `until`) |
+| New in v2 | `since: '2.0.0'` |
+| Removed in v2 | `since: '1.0.0'` + `until: '2.0.0'` |
+| Always visible (no versioning) | omit both (defaults to `since: '0.0.0'`) |
+
+### Adding a New Version — Checklist
+
+1. Add entry to `content/versions.yaml`
+2. New pages: add `since: 'x.y.z'`
+3. Removed pages: add `until: 'x.y.z'`
+4. Unchanged pages: nothing to do
+5. Restart dev server (Velite output is cached at startup)
+
+## 6. Workflow Checklist
 
 When asked to create or edit a docs page:
 
 1. Confirm/create the correct location under `content/<group>/<name>.md`, respecting group numbering and `order`.
-2. Write frontmatter with `title` and `description` at minimum; add other fields only if relevant.
+2. Write frontmatter with `title`, `description`, and `since` at minimum; add other fields only if relevant.
 3. Add a `<script lang="ts">` block importing only the components actually used.
 4. Write content using standard markdown + the custom extensions in section 3 where they fit better than plain markdown (e.g. callouts instead of plain blockquotes for warnings/tips).
 5. For "make this interactive" / "show this visually" requests, pick the most fitting component from section 4 rather than defaulting to plain text or raw `<div>`s — e.g. command sequences → `Snippet` or `Terminal`; alternatives → `Tabs`; FAQs → `Accordion`; file layouts → `TreeView`; grouped info → `Card`.

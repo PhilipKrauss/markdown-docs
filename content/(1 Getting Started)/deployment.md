@@ -1,4 +1,5 @@
 ---
+since: '1.0.0'
 title: 'Deployment'
 description: 'Host the docs site as a Docker container using the included Dockerfile and docker-compose.yaml.'
 order: 3

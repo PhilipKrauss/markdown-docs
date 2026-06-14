@@ -4,7 +4,6 @@
 	import { cn } from '$lib/utils';
 	import { page } from '$app/state';
 	import { useDocs } from '$lib/features/docs/docs-context.svelte';
-	import type { Component } from 'svelte';
 	import { UseClipboard } from '$lib/hooks/use-clipboard.svelte';
 	import { scale } from 'svelte/transition';
 	import { IconCode, IconCheck, IconChevronDown, IconLink, IconMarkdown } from "@tabler/icons-svelte";
@@ -12,9 +11,9 @@
 
 	const docs = useDocs();
 
-	const pageHref = $derived(new URL(`/docs/${docs.doc.doc.slug}`, page.url.origin).href);
+	const pageHref = $derived(new URL(`/docs/${docs.version}/${docs.doc.doc.slug}`, page.url.origin).href);
 
-	const markdownViewHref = $derived(new URL(`/docs/${docs.doc.doc.slug}.md`, page.url.origin).href);
+	const markdownViewHref = $derived(new URL(`/docs/${docs.version}/${docs.doc.doc.slug}.md`, page.url.origin).href);
 
 	const source = $derived(`${PUBLIC_CONTENT_SOURCE_URL.replace(/\/$/, '')}/${docs.doc.doc.path}.md`);
 

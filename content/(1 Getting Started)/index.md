@@ -1,4 +1,5 @@
 ---
+since: '1.0.0'
 title: 'Introduction'
 description: 'A markdown-first documentation site powered by SvelteKit, Velite, and shadcn-svelte.'
 order: 1

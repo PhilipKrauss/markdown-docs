@@ -1,4 +1,5 @@
 ---
+since: '1.0.0'
 title: 'Create Pages'
 description: 'How to add documents, groups, and rich content to this docs site.'
 order: 2
@@ -78,6 +79,7 @@ All content lives under `content/`. Each `.md` file becomes a docs page.
 {/snippet}
 </TreeView.File>
 </TreeView.Folder>
+<TreeView.File name="version.yaml" />
 </TreeView.Folder>
 </TreeView.Root>
 
@@ -107,19 +109,21 @@ Lower numbers appear first. Documents without `order` sort alphabetically after 
 
 ### 1.4 Frontmatter Reference
 
-Every document requires at minimum `title` and `description`.
+Every document requires at minimum `title`, `description`, and `since`.
 
 ```md
 ---
-title: 'My Page'            # required ? shown as heading and in nav
-description: 'Short blurb.' # required ? shown in overview cards and meta
-order: 1                    # optional ? explicit sort position within group
-navLabel: 'Short Name'      # optional ? overrides title in sidebar/nav only
-indicator: 'new'            # optional ? 'new', 'updated', 'deprecated', 'removed' badge
+title: 'My Page'            # required – shown as heading and in nav
+description: 'Short blurb.' # required – shown in overview cards and meta
+since: '1.0.0'              # required – first version this page appears in
+until: '2.0.0'              # optional – exclusive upper bound; omit = no limit
+order: 1                    # optional – explicit sort position within group
+navLabel: 'Short Name'      # optional – overrides title in sidebar/nav only
+indicator: 'new'            # optional – 'new', 'updated', 'deprecated', 'removed' badge
+hidden: false               # optional – hide page from the sidenav
+tocLevel: 3                 # optional – max header level shown in table of contents
 links:
-  doc: 'https://...'        # optional ? external doc link shown in header
-  api: 'https://...'        # optional ? API reference link
-  source: 'https://...'     # optional ? source code link
+  source: 'https://...'     # optional – source code link
 ---
 ```
 
@@ -957,7 +961,7 @@ Animated terminal with typewriter effects.
 ```svelte {2-3, 6-22}
 <script lang="ts">
 	import * as TreeView from '$lib/components/ui/tree-view';
-	import { IconMarkdown, IconBrandSvelte, IconFolderOpen, IconFolderCode } from '@tabler/icons-svelte';
+	import { IconBrandSvelte, IconFolderOpen, IconFolderCode } from '@tabler/icons-svelte';
 </script>
 
 <TreeView.Root class="rounded-lg border p-4 font-mono text-sm">

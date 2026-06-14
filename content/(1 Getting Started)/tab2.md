@@ -1,4 +1,5 @@
 ---
+since: '1.0.0'
 title: 'Tab-2'
 description: ''
 hidden: true

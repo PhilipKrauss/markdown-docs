@@ -8,6 +8,7 @@
 	import Button from '$lib/components/button.svelte';
 	import * as Tooltip from './ui/tooltip';
 	import { useDocs } from '$lib/features/docs/docs-context.svelte';
+	import { versionedHref } from '$lib/features/docs/docs';
 	import {IconArrowLeft, IconArrowRight, IconCode} from "@tabler/icons-svelte";
 	import CopyMarkdownButton from './copy-markdown-button.svelte';
 	import { UserConfigContext } from '$lib/user-config.svelte';
@@ -25,6 +26,7 @@
 	const toc = new UseToc();
 
 	const docsState = useDocs();
+	const version = $derived(docsState.version);
 
 	const visibleToc = $derived.by(() => {
 		const level = docsState.doc?.doc.tocLevel;
@@ -50,7 +52,7 @@
 										variant="secondary"
 										size="icon"
 										class="size-8"
-										href={docsState.doc?.prev?.href}
+										href={docsState.doc?.prev ? versionedHref(docsState.doc.prev.href, version) : undefined}
 										data-umami-event="Navigate backward arrow"
 										disabled={!docsState.doc?.prev}
 									>
@@ -70,7 +72,7 @@
 										variant="secondary"
 										size="icon"
 										class="size-8"
-										href={docsState.doc?.next?.href}
+										href={docsState.doc?.next ? versionedHref(docsState.doc.next.href, version) : undefined}
 										data-umami-event="Navigate forward arrow"
 										disabled={!docsState.doc?.next}
 									>
@@ -108,14 +110,14 @@
 		<Navigation.Root class="pt-10">
 			{#snippet previous()}
 				{#if docsState.doc?.prev}
-					<Navigation.Previous href={docsState.doc?.prev.href}>
+					<Navigation.Previous href={versionedHref(docsState.doc.prev.href, version)}>
 						{docsState.doc?.prev.title}
 					</Navigation.Previous>
 				{/if}
 			{/snippet}
 			{#snippet next()}
 				{#if docsState.doc?.next}
-					<Navigation.Next href={docsState.doc?.next.href}>
+					<Navigation.Next href={versionedHref(docsState.doc.next.href, version)}>
 						{docsState.doc?.next.title}
 					</Navigation.Next>
 				{/if}
