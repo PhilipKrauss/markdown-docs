@@ -310,7 +310,7 @@ Additional variants with same stylings contain: `NOTE`, `TIP`, `IMPORTANT`.
 > A helpful tip or shortcut for the reader.
 
 > [!IMPORTANT]
-> An important note with the same style as Warning.
+> An important note.
 ```
 
 > [!NOTE]
@@ -320,7 +320,7 @@ Additional variants with same stylings contain: `NOTE`, `TIP`, `IMPORTANT`.
 > A helpful tip or shortcut for the reader.
 
 > [!IMPORTANT]
-> An important note with the same style as Error
+> An important note.
 
 #### Custom Title
 

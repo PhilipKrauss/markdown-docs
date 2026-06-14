@@ -6,7 +6,7 @@
 		IconBulb,
 		IconAlertTriangle,
 		IconAlertCircle,
-		IconCircleCheck
+		IconCircleCheck, IconMessageExclamation
 	} from '@tabler/icons-svelte';
 
 	type Props = HTMLAttributes<HTMLElement> & {
@@ -27,7 +27,7 @@
 		tip:       { icon: IconBulb,          label: 'Tip',       color: 'var(--success)' },
 		info:      { icon: IconInfoCircle,    label: 'Info',      color: 'var(--info)' },
 		warning:   { icon: IconAlertTriangle, label: 'Warning',   color: 'var(--warning)' },
-		important: { icon: IconAlertTriangle, label: 'Important', color: 'var(--warning)' },
+		important: { icon: IconMessageExclamation, label: 'Important', color: 'var(--important)' },
 		error:     { icon: IconAlertCircle,   label: 'Error',     color: 'var(--error)' },
 		success:   { icon: IconCircleCheck,   label: 'Success',   color: 'var(--success)' },
 	} as const;
@@ -44,7 +44,7 @@
 		role="note"
 		{...restProps}
 	>
-		<Icon class="mt-[3px] size-3.5 shrink-0" style="color:{variant.color};" />
+		<Icon class="mt-[3px] size-4 shrink-0" style="color:{variant.color};" />
 		<div class="min-w-0 flex-1 text-sm [&_p]:mt-0.5! [&_p]:leading-normal! [&_p:first-child]:mt-0!">
 			<p class="font-semibold leading-snug" style="color:{variant.color};">{title}</p>
 			{@render children?.()}

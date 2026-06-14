@@ -45,6 +45,7 @@
 	--error: oklch(0.577 0.245 27.325);
 	--warning: oklch(0.669 0.16 56.73);
 	--info: oklch(0.488 0.243 264.376);
+	--important: oklch(0.506 0.263 286.722);
 }
 
 .dark {
@@ -83,6 +84,7 @@
 	--error: oklch(0.704 0.191 22.216);
 	--warning: oklch(0.8642 0.1416 92.19);
 	--info: oklch(0.675 0.153 258.33);
+	--important: oklch(0.599 0.221 294.165);
 }
 
 @theme inline {
@@ -124,6 +126,7 @@
 	--color-warning: var(--warning);
 	--color-error: var(--error);
 	--color-info: var(--info);
+	--color-important: var(--important);
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);
 	--radius-lg: var(--radius);
