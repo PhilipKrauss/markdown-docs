@@ -17,8 +17,8 @@ A markdown-first documentation site built with **SvelteKit**, **Velite**, **mdsx
 ## Getting Started
 
 ```sh
-git clone <your-repo-url>
-cd <repo>
+git clone git@github.com:PhilipKrauss/markdown-docs.git
+cd markdown-docs
 cp .env.example .env   # fill in your values
 bun install
 bun run dev
