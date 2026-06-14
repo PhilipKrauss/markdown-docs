@@ -1,0 +1,35 @@
+<script lang="ts">
+	import { Button } from '$lib/components/ui/button/index.ts';
+	import { IconLayoutSidebar } from '@tabler/icons-svelte';
+	import { cn } from '$lib/utils';
+	import type { ComponentProps } from 'svelte';
+	import { useSidebar } from './context.svelte.ts';
+
+	let {
+		ref = $bindable(null),
+		class: className,
+		onclick,
+		...restProps
+	}: ComponentProps<typeof Button> & {
+		onclick?: (e: MouseEvent) => void;
+	} = $props();
+
+	const sidebar = useSidebar();
+</script>
+
+<Button
+	bind:ref
+	data-sidebar="trigger"
+	data-slot="sidebar-trigger"
+	variant="ghost"
+	size="icon-sm"
+	class={cn('cn-sidebar-trigger', className)}
+	type="button"
+	onclick={(e) => {
+		onclick?.(e);
+		sidebar.toggle();
+	}}
+	{...restProps}>
+	<IconLayoutSidebar />
+	<span class="sr-only">Toggle Sidebar</span>
+</Button>

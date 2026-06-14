@@ -1,0 +1,81 @@
+[
+  {
+    "title": "Introduction",
+    "description": "Why we built shadcn-svelte-extras and why it's great.",
+    "path": "index",
+    "component": false,
+    "toc": [
+      {
+        "title": "Not a port",
+        "url": "#not-a-port",
+        "items": []
+      },
+      {
+        "title": "Composability",
+        "url": "#composability",
+        "items": []
+      },
+      {
+        "title": "Quality",
+        "url": "#quality",
+        "items": []
+      }
+    ],
+    "slug": "index",
+    "href": "/docs"
+  },
+  {
+    "title": "Installation",
+    "description": "How to add and use extras in your project.",
+    "path": "installation",
+    "component": false,
+    "toc": [],
+    "slug": "installation",
+    "href": "/docs/installation"
+  },
+  {
+    "title": "UseMedia",
+    "description": "A hook to track the size of the screen using the standard Tailwind CSS breakpoints.",
+    "path": "use-media",
+    "component": false,
+    "toc": [
+      {
+        "title": "Installation",
+        "url": "#installation",
+        "items": []
+      },
+      {
+        "title": "Usage",
+        "url": "#usage",
+        "items": []
+      },
+      {
+        "title": "Custom Breakpoints",
+        "url": "#custom-breakpoints",
+        "items": []
+      }
+    ],
+    "slug": "use-media",
+    "href": "/docs/use-media"
+  },
+  {
+    "title": "UsePromise",
+    "description": "A hook to manage the state of a promise reactively in the absence of {#await}.",
+    "path": "use-promise",
+    "component": false,
+    "toc": [
+      {
+        "title": "Installation",
+        "url": "#installation",
+        "items": []
+      },
+      {
+        "title": "Usage",
+        "url": "#usage",
+        "items": []
+      }
+    ],
+    "slug": "use-promise",
+    "href": "/docs/use-promise"
+  }
+]
