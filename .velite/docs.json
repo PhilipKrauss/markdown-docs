@@ -1,5 +1,54 @@
 [
   {
+    "title": "Deployment",
+    "description": "Host the docs site as a Docker container using the included Dockerfile and docker-compose.yaml.",
+    "path": "(1 Getting Started)/deployment",
+    "order": 3,
+    "component": false,
+    "toc": [
+      {
+        "title": "Requirements",
+        "url": "#requirements",
+        "items": []
+      },
+      {
+        "title": "How It Works",
+        "url": "#how-it-works",
+        "items": []
+      },
+      {
+        "title": "1. Configure .env",
+        "url": "#1-configure-env",
+        "items": []
+      },
+      {
+        "title": "2. Build & Run",
+        "url": "#2-build--run",
+        "items": []
+      },
+      {
+        "title": "3. Rebuild After Content Changes",
+        "url": "#3-rebuild-after-content-changes",
+        "items": []
+      },
+      {
+        "title": "Exposing on a Different Port",
+        "url": "#exposing-on-a-different-port",
+        "items": []
+      },
+      {
+        "title": "Putting It Behind a Reverse Proxy",
+        "url": "#putting-it-behind-a-reverse-proxy",
+        "items": []
+      }
+    ],
+    "hidden": false,
+    "group": "Getting Started",
+    "groupOrder": 1,
+    "slug": "deployment",
+    "href": "/docs/deployment"
+  },
+  {
     "title": "Introduction",
     "description": "A markdown-first documentation site powered by SvelteKit, Velite, and shadcn-svelte.",
     "path": "(1 Getting Started)",
