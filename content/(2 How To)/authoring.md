@@ -898,7 +898,7 @@ Animated terminal with typewriter effects.
 
 ### ToggleGroup
 
-```svelte {2-3, 6-14}
+```svelte {2-3, 6-16}
 <script lang="ts">
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 	import { IconBold, IconItalic, IconUnderline } from '@tabler/icons-svelte';
@@ -958,7 +958,7 @@ Animated terminal with typewriter effects.
 
 ### TreeView
 
-```svelte {2-3, 6-22}
+```svelte {2-3, 6-24}
 <script lang="ts">
 	import * as TreeView from '$lib/components/ui/tree-view';
 	import { IconBrandSvelte, IconFolderOpen, IconFolderCode } from '@tabler/icons-svelte';
