@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const USER_CONFIG_COOKIE_NAME = 'user_config';
 
-const layoutSchema = z.enum(['fixed', 'full']).default('full');
+const layoutSchema = z.enum(['fixed', 'full']).default('fixed');
 
 export type Layout = z.infer<typeof layoutSchema>;
 
@@ -12,7 +12,7 @@ export const userConfigSchema = z
 		layout: layoutSchema,
 	})
 	.default({
-		layout: 'full',
+		layout: 'fixed',
 	});
 
 export type UserConfigType = z.infer<typeof userConfigSchema>;

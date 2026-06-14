@@ -1,14 +1,17 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar';
-	import * as Tooltip from '$lib/components/ui/tooltip';
+	import * as ScrollArea from '$lib/components/ui/scroll-area';
 	import {groupedDocs} from '$lib/features/docs/docs';
 	import { page } from '$app/state';
 	import type { ComponentProps } from 'svelte';
-	import { Badge } from './ui/badge';
+	import { UserConfigContext } from '$lib/user-config.svelte';
+	import {cn} from "$lib/utils.ts";
 
 	let { ref = $bindable(null), ...restProps }: ComponentProps<typeof Sidebar.Root> = $props();
 
 	const pathname = $derived(page.url.pathname);
+	const userConfig = UserConfigContext.get();
+	const isWide = $derived(userConfig.current.layout === 'full');
 </script>
 
 {#snippet Indicator(key: string)}
@@ -43,32 +46,28 @@
 
 <Sidebar.Root
 	bind:ref
-	class="sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100dvh-var(--header-height)-4rem)] overscroll-none bg-transparent lg:flex"
+	class="sticky top-[calc(var(--header-height)+2rem)] z-30 hidden h-[calc(100dvh-var(--header-height)-4rem)] overscroll-none bg-transparent lg:flex"
 	collapsible="none"
 	{...restProps}
 >
-	<Sidebar.Content class="no-scrollbar overflow-x-hidden px-2">
-		<div
-			class="from-background via-background/80 to-background/50 sticky -top-1 z-10 h-8 shrink-0 bg-linear-to-b blur-xs"
-		></div>
-		{#each Object.entries(groupedDocs) as [groupTitle, routes] (groupTitle)}
-			<Sidebar.Group>
-				<Sidebar.GroupLabel class="text-muted-foreground font-medium">
-					{groupTitle}
-				</Sidebar.GroupLabel>
-				<Sidebar.GroupContent>
-					{#if routes.length}
-						<Sidebar.Menu class="gap-1">
-							{#each routes as doc (doc.href)}
-								{@render MenuButton(doc)}
-							{/each}
-						</Sidebar.Menu>
-					{/if}
-				</Sidebar.GroupContent>
-			</Sidebar.Group>
-		{/each}
-		<div
-			class="from-background via-background/80 to-background/50 sticky -bottom-1 z-10 h-16 shrink-0 bg-linear-to-t blur-xs"
-		></div>
+	<Sidebar.Content class="overflow-hidden px-0">
+		<ScrollArea.Root class={cn('h-full', isWide ? 'pl-4 pr-2' : 'px-2')}>
+			{#each Object.entries(groupedDocs) as [groupTitle, routes] (groupTitle)}
+				<Sidebar.Group>
+					<Sidebar.GroupLabel class="text-muted-foreground font-medium">
+						{groupTitle}
+					</Sidebar.GroupLabel>
+					<Sidebar.GroupContent>
+						{#if routes.length}
+							<Sidebar.Menu class="gap-1">
+								{#each routes as doc (doc.href)}
+									{@render MenuButton(doc)}
+								{/each}
+							</Sidebar.Menu>
+						{/if}
+					</Sidebar.GroupContent>
+				</Sidebar.Group>
+			{/each}
+		</ScrollArea.Root>
 	</Sidebar.Content>
 </Sidebar.Root>

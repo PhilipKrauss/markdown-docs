@@ -4,10 +4,16 @@
 	import { Separator } from './ui/separator';
 	import MobileSheet from './mobile-sheet.svelte';
 	import SearchButton from './search-button.svelte';
+	import { UserConfigContext } from '$lib/user-config.svelte';
+	import LayoutToggle from './layout-toggle.svelte';
+	import {cn} from "$lib/utils";
+
+	const userConfig = UserConfigContext.get();
+	const isWide = $derived(userConfig.current.layout === 'full');
 </script>
 
-<header class="bg-background sticky top-0 z-10 flex flex-col items-center">
-	<div class="site-container flex h-(--header-height) w-full max-w-full items-center justify-between">
+<header class="bg-background/80 backdrop-blur-2xl sticky top-0 z-10 flex flex-col items-center">
+	<div class={cn('flex h-(--header-height) items-center justify-between', isWide ? 'w-full px-4 sm:px-6 lg:px-8' : 'site-container')}>
 		<MobileSheet />
 		<div class="hidden items-center md:flex gap-2">
 			<a href="/">
@@ -17,6 +23,8 @@
 		</div>
 		<div class="flex items-center gap-2 **:data-[slot=separator]:h-4!">
 			<SearchButton />
+			<Separator orientation="vertical" class="hidden 2xl:block" />
+			<LayoutToggle variant="ghost" size="sm" />
 			<Separator orientation="vertical" class="hidden xl:block" />
 			<LightSwitch variant="ghost" size="sm" />
 		</div>
