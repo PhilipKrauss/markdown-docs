@@ -1,0 +1,15 @@
+services:
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PUBLIC_REPO_URL: ${PUBLIC_REPO_URL}
+        PUBLIC_CONTENT_SOURCE_URL: ${PUBLIC_CONTENT_SOURCE_URL}
+        PUBLIC_SITE_TITLE: ${PUBLIC_SITE_TITLE}
+        PUBLIC_SITE_DESCRIPTION: ${PUBLIC_SITE_DESCRIPTION}
+    ports:
+      - "3000:3000"
+    environment:
+      - ORIGIN=${ORIGIN:-http://localhost:3000}
+    restart: unless-stopped
