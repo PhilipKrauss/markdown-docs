@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Code from '$lib/components/ui/code';
 	import { cn } from '$lib/utils.js';
-	import type { SupportedLanguage } from '$lib/components/ui/code/shiki';
+	import { bundledLanguages, type SupportedLanguage } from '$lib/components/ui/code/shiki';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	type Props = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
@@ -45,22 +45,18 @@
 	const diffAdd = $derived(parseNums(dataMdsxAdd));
 	const diffRemove = $derived(parseNums(dataMdsxRemove));
 
-	const LANG_MAP: Record<string, SupportedLanguage> = {
-		bash: 'bash',
-		diff: 'diff',
-		javascript: 'javascript',
+	const LANG_ALIASES: Record<string, SupportedLanguage> = {
 		js: 'javascript',
-		json: 'json',
-		svelte: 'svelte',
-		text: 'text',
-		plaintext: 'text',
-		typescript: 'typescript',
-		ts: 'typescript'
+		ts: 'typescript',
+		plaintext: 'text'
 	};
 
 	const lang = $derived.by(() => {
 		const raw = (dataMdsxLang ?? dataLanguage ?? 'plaintext').toLowerCase();
-		return LANG_MAP[raw] ?? 'typescript';
+		if (raw in LANG_ALIASES) return LANG_ALIASES[raw];
+		if (raw in bundledLanguages) return raw as SupportedLanguage;
+		if (raw === 'text') return 'text';
+		return 'text';
 	});
 
 	const hideLines = $derived(lang === 'text');
